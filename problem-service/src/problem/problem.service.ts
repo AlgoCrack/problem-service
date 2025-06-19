@@ -1,12 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { Prisma } from '@prisma/client';
+import { Problem } from '@prisma/client';
 
 @Injectable()
 export class ProblemService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(title: string, description: string) {
+  async create(title: string, description: string): Promise<Problem> {
     try {
       const res = await this.prisma.problem.create({
         data: { title, description },
@@ -18,7 +19,7 @@ export class ProblemService {
     }
   }
 
-  async findAll() {
+  async findAll(): Promise<Problem[]> {
     try {
       const res = await this.prisma.problem.findMany();
       return res;
@@ -28,7 +29,7 @@ export class ProblemService {
     }
   }
 
-  async findOne(id: number) {
+  async findOne(id: number): Promise<Problem | null> {
     try {
       const res = await this.prisma.problem.findUnique({ where: { id } });
       return res;
@@ -38,7 +39,11 @@ export class ProblemService {
     }
   }
 
-  async update(id: number, title: string, description: string) {
+  async update(
+    id: number,
+    title: string,
+    description: string,
+  ): Promise<Problem> {
     try {
       const res = await this.prisma.problem.update({
         where: { id },
@@ -56,7 +61,7 @@ export class ProblemService {
     }
   }
 
-  async remove(id: number) {
+  async remove(id: number): Promise<Problem> {
     try {
       const res = await this.prisma.problem.delete({ where: { id } });
       return res;
