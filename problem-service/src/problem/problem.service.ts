@@ -41,8 +41,8 @@ export class ProblemService {
 
   async update(
     id: number,
-    title: string,
-    description: string,
+    title?: string,
+    description?: string,
   ): Promise<Problem> {
     try {
       const res = await this.prisma.problem.update({

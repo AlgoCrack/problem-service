@@ -7,18 +7,20 @@ import {
   Param,
   Body,
   NotFoundException,
+  ParseIntPipe,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { ProblemService } from './problem.service';
 import { Problem } from '@prisma/client';
+import { CreateProblemReq, UpdateProblemReq } from './problem.dto';
 
 @Controller('/api/problem')
 export class ProblemController {
   constructor(private readonly problemService: ProblemService) {}
 
   @Post()
-  async create(
-    @Body() body: { title: string; description: string },
-  ): Promise<Problem> {
+  async create(@Body() body: CreateProblemReq): Promise<Problem> {
     const { title, description } = body;
     const res = await this.problemService.create(title, description);
     return res;
@@ -31,8 +33,8 @@ export class ProblemController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string): Promise<Problem> {
-    const problem = await this.problemService.findOne(Number(id));
+  async findOne(@Param('id', ParseIntPipe) id: number): Promise<Problem> {
+    const problem = await this.problemService.findOne(id);
     if (!problem) {
       throw new NotFoundException('Problem not found');
     }
@@ -40,22 +42,19 @@ export class ProblemController {
   }
 
   @Patch(':id')
+  @UsePipes(new ValidationPipe())
   async update(
-    @Param('id') id: string,
-    @Body() body: { title: string; description: string },
+    @Param('id', ParseIntPipe) id: number,
+    @Body() body: UpdateProblemReq,
   ): Promise<Problem> {
     const { title, description } = body;
-    const res = await this.problemService.update(
-      Number(id),
-      title,
-      description,
-    );
+    const res = await this.problemService.update(id, title, description);
     return res;
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string): Promise<Problem> {
-    const res = await this.problemService.remove(Number(id));
+  async remove(@Param('id', ParseIntPipe) id: number): Promise<Problem> {
+    const res = await this.problemService.remove(id);
     return res;
   }
 }
