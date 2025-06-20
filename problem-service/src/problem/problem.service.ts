@@ -1,7 +1,7 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { Prisma } from '@prisma/client';
 import { Problem } from '@prisma/client';
+import { handlePrismaError } from 'src/utils/error-utils';
 
 @Injectable()
 export class ProblemService {
@@ -51,13 +51,7 @@ export class ProblemService {
       });
       return res;
     } catch (error) {
-      if (
-        error instanceof Prisma.PrismaClientKnownRequestError &&
-        error.code === 'P2025'
-      ) {
-        throw new NotFoundException('Problem not found');
-      }
-      throw error;
+      handlePrismaError(error);
     }
   }
 
@@ -66,13 +60,7 @@ export class ProblemService {
       const res = await this.prisma.problem.delete({ where: { id } });
       return res;
     } catch (error) {
-      if (
-        error instanceof Prisma.PrismaClientKnownRequestError &&
-        error.code === 'P2025'
-      ) {
-        throw new NotFoundException('Problem not found');
-      }
-      throw error;
+      handlePrismaError(error);
     }
   }
 }
