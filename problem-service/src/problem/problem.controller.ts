@@ -21,8 +21,8 @@ export class ProblemController {
 
   @Post()
   async create(@Body() body: CreateProblemReq): Promise<Problem> {
-    const { title, description } = body;
-    const res = await this.problemService.create(title, description);
+    const { title, description, testCases } = body;
+    const res = await this.problemService.create(title, description, testCases);
     return res;
   }
 
@@ -46,9 +46,14 @@ export class ProblemController {
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() body: UpdateProblemReq,
-  ): Promise<Problem> {
-    const { title, description } = body;
-    const res = await this.problemService.update(id, title, description);
+  ): Promise<Problem | null> {
+    const { title, description, testCases } = body;
+    const res = await this.problemService.update(
+      id,
+      title,
+      description,
+      testCases,
+    );
     return res;
   }
 

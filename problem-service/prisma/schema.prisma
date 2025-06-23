@@ -23,5 +23,20 @@ model Problem {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
+  testCases   TestCase[]  // 關聯
+
+  @@schema("problem")
+}
+
+model TestCase {
+  id          Int      @id @default(autoincrement())
+  problemId   Int
+  input       Json
+  output      Json
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  problem     Problem  @relation(fields: [problemId], references: [id])
+
   @@schema("problem")
 }

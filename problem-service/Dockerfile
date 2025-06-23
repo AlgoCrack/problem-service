@@ -7,6 +7,6 @@ COPY ./ $APP_HOME
 
 EXPOSE 3000/tcp
 
-RUN npx prisma generate
+RUN yarn prisma migrate dev
 
-CMD npm run start
+CMD yarn run start

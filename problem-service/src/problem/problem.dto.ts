@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, IsString } from 'class-validator';
+import { IsArray, IsObject, IsOptional, IsString } from 'class-validator';
 
 export class UpdateProblemReq {
   @ApiProperty({ description: 'problem title', example: 'Two Sum' })
@@ -11,6 +11,10 @@ export class UpdateProblemReq {
   @IsString()
   @IsOptional()
   description?: string;
+
+  @ApiProperty({ description: 'test case', example: {} })
+  @IsArray()
+  testCases: TestCasesDto[];
 }
 
 export class CreateProblemReq {
@@ -21,4 +25,18 @@ export class CreateProblemReq {
   @ApiProperty({ description: 'problem description', example: '1 + 1 = ?' })
   @IsString()
   description: string;
+
+  @ApiProperty({ description: 'test case', example: {} })
+  @IsArray()
+  testCases: TestCasesDto[];
+}
+
+export class TestCasesDto {
+  @ApiProperty({ description: 'input', example: {} })
+  @IsObject()
+  input: object;
+
+  @ApiProperty({ description: 'output', example: {} })
+  @IsObject()
+  output: object;
 }
