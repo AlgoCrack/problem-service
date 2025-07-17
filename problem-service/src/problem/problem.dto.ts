@@ -14,7 +14,8 @@ export class UpdateProblemReq {
 
   @ApiProperty({ description: 'test case', example: {} })
   @IsArray()
-  testCases: TestCasesDto[];
+  @IsOptional()
+  testCases?: TestCasesDto[];
 }
 
 export class CreateProblemReq {
@@ -28,6 +29,7 @@ export class CreateProblemReq {
 
   @ApiProperty({ description: 'test case', example: {} })
   @IsArray()
+  @IsOptional()
   testCases: TestCasesDto[];
 }
 
