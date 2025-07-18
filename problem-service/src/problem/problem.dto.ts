@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsArray, IsObject, IsOptional, IsString } from 'class-validator';
+import { Prisma } from '@prisma/client';
 
 export class UpdateProblemReq {
   @ApiProperty({ description: 'problem title', example: 'Two Sum' })
@@ -36,9 +37,9 @@ export class CreateProblemReq {
 export class TestCasesDto {
   @ApiProperty({ description: 'input', example: {} })
   @IsObject()
-  input: object;
+  input: (string | number | boolean)[];
 
   @ApiProperty({ description: 'output', example: {} })
   @IsObject()
-  output: object;
+  output: (string | number | boolean)[];
 }

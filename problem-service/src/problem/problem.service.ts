@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { Problem } from '@prisma/client';
-import { handlePrismaError } from 'src/utils/error-utils';
+import { handlePrismaError } from '../utils/error-utils';
 import { TestCasesDto } from './problem.dto';
 
 @Injectable()
@@ -96,10 +96,12 @@ export class ProblemService {
         }
 
         // 回傳包含 testCases 的最新 problem
-        return prisma.problem.findUnique({
+        const res = await prisma.problem.findUnique({
           where: { id },
           include: { testCases: true },
         });
+
+        return res;
       });
 
       return res;
