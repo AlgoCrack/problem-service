@@ -7,6 +7,4 @@ COPY ./ $APP_HOME
 
 EXPOSE 3000/tcp
 
-RUN yarn prisma migrate dev
-
-CMD yarn run start
+CMD yarn run start:prod
