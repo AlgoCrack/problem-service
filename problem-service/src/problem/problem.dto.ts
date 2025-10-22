@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsArray, IsObject, IsOptional, IsString } from 'class-validator';
-import { Prisma } from '@prisma/client';
 
 export class UpdateProblemReq {
   @ApiProperty({ description: 'problem title', example: 'Two Sum' })

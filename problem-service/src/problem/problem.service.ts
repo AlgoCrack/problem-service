@@ -78,7 +78,7 @@ export class ProblemService {
     testCases?: TestCasesDto[],
   ): Promise<Problem | null> {
     try {
-      const res = await this.prisma.$transaction(async (prisma) => {
+      await this.prisma.$transaction(async (prisma) => {
         // 更新 Problem
         await prisma.problem.update({
           where: { id },
@@ -94,15 +94,10 @@ export class ProblemService {
             });
           }
         }
-
-        // 回傳包含 testCases 的最新 problem
-        const res = await prisma.problem.findUnique({
-          where: { id },
-          include: { testCases: true },
-        });
-
-        return res;
       });
+
+      // 回傳包含 testCases 的最新 problem
+      const res = await this.findOne(id);
 
       return res;
     } catch (error) {
