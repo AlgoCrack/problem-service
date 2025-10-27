@@ -1,5 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsArray, IsObject, IsOptional, IsString } from 'class-validator';
+import {
+  IsArray,
+  IsDate,
+  IsNumber,
+  IsObject,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class UpdateProblemReq {
   @ApiProperty({ description: 'problem title', example: 'Two Sum' })
@@ -41,4 +48,22 @@ export class TestCasesDto {
   @ApiProperty({ description: 'output', example: {} })
   @IsObject()
   output: (string | number | boolean)[];
+}
+
+export class FindAllRes {
+  @ApiProperty({ description: 'input', example: 1 })
+  @IsNumber()
+  id: number;
+
+  @ApiProperty({ description: 'output', example: 'two sum' })
+  @IsString()
+  title: string;
+
+  @ApiProperty({ description: 'created at', example: new Date() })
+  @IsDate()
+  createdAt: Date;
+
+  @ApiProperty({ description: 'updated at', example: new Date() })
+  @IsDate()
+  updatedAt: Date;
 }

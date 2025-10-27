@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { Problem } from '@prisma/client';
 import { handlePrismaError } from '../utils/error-utils';
-import { TestCasesDto } from './problem.dto';
+import { FindAllRes, TestCasesDto } from './problem.dto';
 
 @Injectable()
 export class ProblemService {
@@ -46,10 +46,15 @@ export class ProblemService {
     }
   }
 
-  async findAll(): Promise<Problem[]> {
+  async findAll(): Promise<FindAllRes[]> {
     try {
       const res = await this.prisma.problem.findMany({
-        include: { testCases: true },
+        select: {
+          id: true,
+          title: true,
+          createdAt: true,
+          updatedAt: true,
+        },
       });
       return res;
     } catch (error) {

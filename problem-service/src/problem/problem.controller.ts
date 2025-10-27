@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { ProblemService } from './problem.service';
 import { Problem } from '@prisma/client';
-import { CreateProblemReq, UpdateProblemReq } from './problem.dto';
+import { CreateProblemReq, FindAllRes, UpdateProblemReq } from './problem.dto';
 
 @Controller('/api/problem')
 export class ProblemController {
@@ -29,7 +29,7 @@ export class ProblemController {
 
   @Get()
   @UsePipes(ValidationPipe)
-  async findAll(): Promise<Problem[]> {
+  async findAll(): Promise<FindAllRes[]> {
     const res = await this.problemService.findAll();
     return res;
   }
