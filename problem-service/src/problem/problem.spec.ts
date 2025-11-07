@@ -67,7 +67,7 @@ describe('ProblemService', () => {
 
       mockPrisma.problem.findMany.mockResolvedValue(problems);
 
-      const result = await service.findAll();
+      const result = await service.findAll(1, 1);
       expect(result).toEqual(problems);
     });
   });
