@@ -10,6 +10,7 @@ import {
   ParseIntPipe,
   UsePipes,
   ValidationPipe,
+  Query,
 } from '@nestjs/common';
 import { ProblemService } from './problem.service';
 import { Problem } from '@prisma/client';
@@ -28,10 +29,13 @@ export class ProblemController {
   }
 
   @Get()
-  @UsePipes(ValidationPipe)
-  async findAll(): Promise<FindAllRes[]> {
-    const res = await this.problemService.findAll();
-    return res;
+  async findAll(
+    @Query('page') pageStr: string,
+    @Query('pageSize') pageSizeStr: string,
+  ): Promise<FindAllRes[]> {
+    const page = parseInt(pageStr) || 1;
+    const pageSize = parseInt(pageSizeStr) || 10;
+    return this.problemService.findAll(page, pageSize);
   }
 
   @Get(':id')

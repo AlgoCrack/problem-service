@@ -46,8 +46,10 @@ export class ProblemService {
     }
   }
 
-  async findAll(): Promise<FindAllRes[]> {
+  async findAll(page: number, pageSize: number): Promise<FindAllRes[]> {
     try {
+      const skip = (page - 1) * pageSize;
+
       const res = await this.prisma.problem.findMany({
         select: {
           id: true,
@@ -55,7 +57,13 @@ export class ProblemService {
           createdAt: true,
           updatedAt: true,
         },
+        orderBy: {
+          createdAt: 'desc', // 預設用建立時間排序（新題在前）
+        },
+        skip,
+        take: pageSize,
       });
+
       return res;
     } catch (error) {
       console.error('Error finding problems:', error);
