@@ -11,7 +11,7 @@ import {
 export enum LevelOfdifficulty {
   EASY = 'easy',
   MEDIUMN = 'mediumn',
-  HARD = 'HARD',
+  HARD = 'hard',
 }
 
 export class UpdateProblemReq {
