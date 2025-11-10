@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { Problem } from '@prisma/client';
 import { handlePrismaError } from '../utils/error-utils';
-import { FindAllRes, TestCasesDto } from './problem.dto';
+import { FindAllRes, LevelOfdifficulty, TestCasesDto } from './problem.dto';
 
 @Injectable()
 export class ProblemService {
@@ -12,12 +12,13 @@ export class ProblemService {
     title: string,
     description: string,
     testCases: TestCasesDto[],
+    levelOfDifficulty: LevelOfdifficulty,
   ): Promise<Problem> {
     try {
       const res = await this.prisma.$transaction(async (prisma) => {
         // 寫入 Problem
         const problem = await prisma.problem.create({
-          data: { title, description },
+          data: { title, description, level_of_difficulty: levelOfDifficulty },
         });
 
         // 寫入 TestCase
