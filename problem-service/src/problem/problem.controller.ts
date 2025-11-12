@@ -23,12 +23,12 @@ export class ProblemController {
   @Post()
   @UsePipes(ValidationPipe)
   async create(@Body() body: CreateProblemReq): Promise<Problem> {
-    const { title, description, testCases, levelOfdifficulty } = body;
+    const { title, description, testCases, levelOfDifficulty } = body;
     const res = await this.problemService.create(
       title,
       description,
       testCases,
-      levelOfdifficulty,
+      levelOfDifficulty,
     );
     return res;
   }
@@ -59,11 +59,12 @@ export class ProblemController {
     @Param('id', ParseIntPipe) id: number,
     @Body() body: UpdateProblemReq,
   ): Promise<Problem | null> {
-    const { title, description, testCases } = body;
+    const { title, description, testCases, levelOfDifficulty } = body;
     const res = await this.problemService.update(
       id,
       title,
       description,
+      levelOfDifficulty,
       testCases,
     );
     return res;

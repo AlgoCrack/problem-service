@@ -1,5 +1,5 @@
 import { ProblemService } from './problem.service';
-import { TestCasesDto } from './problem.dto';
+import { LevelOfDifficulty, TestCasesDto } from './problem.dto';
 
 const mockPrisma = {
   $transaction: jest.fn(),
@@ -46,7 +46,12 @@ describe('ProblemService', () => {
       });
       mockPrisma.problem.findUnique.mockResolvedValue(expectedResult);
 
-      const result = await service.create(title, description, testCases);
+      const result = await service.create(
+        title,
+        description,
+        testCases,
+        LevelOfDifficulty.EASY,
+      );
 
       expect(result).toEqual(expectedResult);
       expect(mockPrisma.testCase.createMany).toHaveBeenCalled();
@@ -104,7 +109,13 @@ describe('ProblemService', () => {
       });
       mockPrisma.problem.findUnique.mockResolvedValue(problem);
 
-      const result = await service.update(1, 'title', 'desc', testCases);
+      const result = await service.update(
+        1,
+        'title',
+        'desc',
+        LevelOfDifficulty.EASY,
+        testCases,
+      );
       expect(result).toBe(problem);
       expect(mockPrisma.testCase.deleteMany).toHaveBeenCalled();
       expect(mockPrisma.testCase.createMany).toHaveBeenCalled();

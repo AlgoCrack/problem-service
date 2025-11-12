@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { Problem } from '@prisma/client';
 import { handlePrismaError } from '../utils/error-utils';
-import { FindAllRes, LevelOfdifficulty, TestCasesDto } from './problem.dto';
+import { FindAllRes, LevelOfDifficulty, TestCasesDto } from './problem.dto';
 
 @Injectable()
 export class ProblemService {
@@ -12,7 +12,7 @@ export class ProblemService {
     title: string,
     description: string,
     testCases: TestCasesDto[],
-    levelOfDifficulty: LevelOfdifficulty,
+    levelOfDifficulty: LevelOfDifficulty,
   ): Promise<Problem> {
     try {
       const res = await this.prisma.$transaction(async (prisma) => {
@@ -55,6 +55,7 @@ export class ProblemService {
         select: {
           id: true,
           title: true,
+          level_of_difficulty: true,
           createdAt: true,
           updatedAt: true,
         },
@@ -89,6 +90,7 @@ export class ProblemService {
     id: number,
     title?: string,
     description?: string,
+    levelOfDifficulty?: LevelOfDifficulty,
     testCases?: TestCasesDto[],
   ): Promise<Problem | null> {
     try {
@@ -96,7 +98,7 @@ export class ProblemService {
         // 更新 Problem
         await prisma.problem.update({
           where: { id },
-          data: { title, description },
+          data: { title, description, level_of_difficulty: levelOfDifficulty },
         });
 
         // 如果有 testCases，先刪除舊的再新增

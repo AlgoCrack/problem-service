@@ -8,7 +8,7 @@ import {
   IsString,
 } from 'class-validator';
 
-export enum LevelOfdifficulty {
+export enum LevelOfDifficulty {
   EASY = 'easy',
   MEDIUMN = 'mediumn',
   HARD = 'hard',
@@ -24,6 +24,10 @@ export class UpdateProblemReq {
   @IsString()
   @IsOptional()
   description?: string;
+
+  @ApiProperty({ description: 'easy', example: {} })
+  @IsString()
+  levelOfDifficulty: LevelOfDifficulty;
 
   @ApiProperty({ description: 'test case', example: {} })
   @IsArray()
@@ -47,7 +51,7 @@ export class CreateProblemReq {
 
   @ApiProperty({ description: 'easy', example: {} })
   @IsString()
-  levelOfdifficulty: LevelOfdifficulty;
+  levelOfDifficulty: LevelOfDifficulty;
 }
 
 export class TestCasesDto {
